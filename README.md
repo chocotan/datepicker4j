@@ -8,7 +8,7 @@ Date picker for java swing
 <dependency>
   <groupId>io.loli</groupId>
   <artifactId>datepicker4j</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 </dependency>
 ```
 
