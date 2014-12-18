@@ -7,7 +7,7 @@ interface ClickableDateFilter {
     /**
      * Make date btn unclickable if returns true
      * 
-     * @param date
+     * @param date date to check
      * @return false if this date btn is clickable
      */
     boolean filter(Date date);
