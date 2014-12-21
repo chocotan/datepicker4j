@@ -19,6 +19,8 @@ class DatePicker {
     JTextField field;
     ClickableDateFilter filter;
 
+    private boolean setTimeAtSetup = false;
+
     public Date getDate() {
         try {
             return simpleDateFormat.parse(this.field.getText());
@@ -39,18 +41,21 @@ class DatePicker {
     Popup popup;
 
     /**
-     * @param field to add to
-     * @param format date format
+     * @param field
+     *            to add to
+     * @param format
+     *            date format
      */
-    public DatePicker(final JTextField field, String format, ClickableDateFilter filter) {
+    public DatePicker(final JTextField field, String format,
+            ClickableDateFilter filter) {
         this.field = field;
         if (format != null) {
             this.format = format;
         }
         this.filter = filter;
         simpleDateFormat = new SimpleDateFormat(this.format);
-
-        this.field.setText(simpleDateFormat.format(new Date()));
+        if (setTimeAtSetup)
+            this.field.setText(simpleDateFormat.format(new Date()));
 
         this.field.addMouseListener(new MouseAdapter() {
             @Override
@@ -63,8 +68,9 @@ class DatePicker {
                 DatePanel timePanel = new DatePanel(DatePicker.this);
                 PopupFactory factory = PopupFactory.getSharedInstance();
 
-                popup = factory.getPopup(field, timePanel, (int) field.getLocationOnScreen().getX(), (int) field
-                    .getLocationOnScreen().getY() + field.getHeight());
+                popup = factory.getPopup(field, timePanel, (int) field
+                        .getLocationOnScreen().getX(), (int) field
+                        .getLocationOnScreen().getY() + field.getHeight());
                 popup.show();
             }
         });
@@ -103,9 +109,12 @@ class DatePicker {
     /**
      * Set date to text field
      * 
-     * @param year year to set
-     * @param month month to set
-     * @param day day to set
+     * @param year
+     *            year to set
+     * @param month
+     *            month to set
+     * @param day
+     *            day to set
      */
     void selectDay(int year, int month, int day) {
         Calendar cal = Calendar.getInstance();
@@ -121,7 +130,8 @@ class DatePicker {
     /**
      * Add a date picker to a text field
      * 
-     * @param field the text field you want to add to
+     * @param field
+     *            the text field you want to add to
      */
     public static void datePicker(JTextField field) {
         datePicker(field, null);
@@ -130,8 +140,10 @@ class DatePicker {
     /**
      * Add a date picker to a text field with date format
      * 
-     * @param field the text field you want to add to
-     * @param format date format string
+     * @param field
+     *            the text field you want to add to
+     * @param format
+     *            date format string
      */
     public static void datePicker(JTextField field, String format) {
         new DatePicker(field, format, new BasicClickableDateFilter());
@@ -140,11 +152,15 @@ class DatePicker {
     /**
      * Add a date picker to a text field with date format
      * 
-     * @param field the text field you want to add to
-     * @param format date format string
-     * @param filter filter
+     * @param field
+     *            the text field you want to add to
+     * @param format
+     *            date format string
+     * @param filter
+     *            filter
      */
-    public static void datePicker(JTextField field, String format, ClickableDateFilter filter) {
+    public static void datePicker(JTextField field, String format,
+            ClickableDateFilter filter) {
         new DatePicker(field, format, filter);
     }
 
@@ -163,7 +179,8 @@ class DatePicker {
     /**
      * Get date field with format
      * 
-     * @param format date format
+     * @param format
+     *            date format
      * @return text field with format
      */
     public static JTextField getDateField(String format) {

@@ -11,10 +11,10 @@ import javax.swing.Popup;
 import javax.swing.PopupFactory;
 
 public class TimePicker {
-    private String format = "HH:mm:ss";
-    private JTextField field;
+    String format = "HH:mm:ss";
+    JTextField field;
 
-    private boolean setTimeAtSetup = true;
+    private boolean setTimeAtSetup = false;
     Popup popup;
 
     public TimePicker(final JTextField field, String format) {
@@ -36,7 +36,6 @@ public class TimePicker {
                 }
                 TimePanel timePanel = new TimePanel(TimePicker.this);
                 PopupFactory factory = PopupFactory.getSharedInstance();
-
                 popup = factory.getPopup(field, timePanel, (int) field.getLocationOnScreen().getX(), (int) field
                     .getLocationOnScreen().getY() + field.getHeight());
                 popup.show();
