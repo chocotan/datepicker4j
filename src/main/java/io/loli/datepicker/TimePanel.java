@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -20,8 +18,6 @@ import javax.swing.JTextField;
 public class TimePanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
-    private TimePicker picker;
-
     private NumPanel hourPanel = new NumPanel(24, null);
 
     private NumPanel minPanel = new NumPanel(60, hourPanel);
@@ -30,18 +26,17 @@ public class TimePanel extends JPanel {
 
     private JPanel controlPanel = new JPanel();
 
-    public TimePanel(final TimePicker picker) {
-        this.picker = picker;
+    public TimePanel(final Picker picker) {
         this.setLayout(new GridLayout(1, 0));
         this.setVisible(true);
         this.setSize(100, 200);
         add(hourPanel);
         add(minPanel);
-        if (picker.format.contains("s")) {
+        if (picker.getFormat().contains("s")) {
             add(secondPanel);
-            this.setPreferredSize(new Dimension(200, 80));
+            this.setPreferredSize(new Dimension(170, 80));
         } else
-            this.setPreferredSize(new Dimension(140, 80));
+            this.setPreferredSize(new Dimension(120, 80));
 
         JButton nowBtn = new JButton("Now");
         JButton okBtn = new JButton("Ok");
@@ -49,15 +44,7 @@ public class TimePanel extends JPanel {
         controlPanel.add(nowBtn);
         controlPanel.add(okBtn);
 
-        try {
-            String dateText = picker.field.getText();
-            SimpleDateFormat fmt = new SimpleDateFormat(picker.format);
-            Date date = fmt.parse(dateText);
-            set(date);
-
-        } catch (ParseException e1) {
-            setNow();
-        }
+        set(picker.getDate());
 
         nowBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -75,11 +62,8 @@ public class TimePanel extends JPanel {
                 cal.set(Calendar.HOUR_OF_DAY, hour);
                 cal.set(Calendar.MINUTE, min);
                 cal.set(Calendar.SECOND, second);
-                SimpleDateFormat fmt = new SimpleDateFormat(picker.format);
-                String result = fmt.format(cal.getTime());
-                picker.field.setText(result);
-                picker.popup.hide();
-                picker.popup = null;
+                picker.set(cal.getTime());
+                picker.close();
             }
         });
 

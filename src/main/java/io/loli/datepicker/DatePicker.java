@@ -7,16 +7,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JTextField;
-import javax.swing.Popup;
 import javax.swing.PopupFactory;
 
-class DatePicker {
-    /**
+public class DatePicker extends AbstractPicker {
+    /*
      * Default date format
      */
-    private String format = "yyyy-MM-dd";
+
+    {
+        format = "yyyy-MM-dd";
+    }
+
     private SimpleDateFormat simpleDateFormat;
-    JTextField field;
     ClickableDateFilter filter;
 
     private boolean setTimeAtSetup = false;
@@ -38,7 +40,6 @@ class DatePicker {
         return this.field.getText();
     }
 
-    Popup popup;
 
     /**
      * @param field
@@ -76,7 +77,7 @@ class DatePicker {
         });
     }
 
-    DatePicker(JTextField field) {
+    public DatePicker(JTextField field) {
         this(field, null, new BasicClickableDateFilter());
     }
 
@@ -189,4 +190,26 @@ class DatePicker {
         datePicker(field);
         return field;
     }
+
+    public ClickableDateFilter getDateFilter() {
+        return filter;
+    }
+
+    public void set(Date date) {
+
+        this.field.setText(simpleDateFormat.format(date));
+        if (popup != null) {
+            popup.hide();
+            popup = null;
+        }
+    }
+
+    public void close() {
+        if (getPopup() != null) {
+            getPopup().hide();
+            setPopup(null);
+            return;
+        }
+    }
+
 }
