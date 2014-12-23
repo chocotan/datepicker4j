@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.loli</groupId>
     <artifactId>datepicker4j</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <url>https://github.com/chocotan/datepicker4j</url>
     <name>io.loli.datepicker4j</name>
 
