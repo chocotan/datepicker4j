@@ -10,7 +10,7 @@ public class TestDateTimePicker {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTextField field = new JTextField(10);
-        new DateTimePicker(field, "yyyy-MM-dd HH:mm:ss");
+        DatePicker.dateTimePicker(field);
         frame.add(field);
         frame.pack();
     }

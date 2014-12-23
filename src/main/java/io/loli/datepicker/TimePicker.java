@@ -17,8 +17,9 @@ public class TimePicker extends AbstractPicker {
     private boolean setTimeAtSetup = false;
 
     public TimePicker(final JTextField field, String format) {
-        if (format != null)
+        if (format != null){
             this.format = format;
+        }
         this.field = field;
         if (setTimeAtSetup) {
             Calendar cal = Calendar.getInstance();
@@ -105,39 +106,29 @@ public class TimePicker extends AbstractPicker {
         return field;
     }
 
-    /**
-     * Convert text of textfield to Date
-     * 
-     * @return Date shown at textfield or new Date if failed to parse
-     */
-    public Date getDate() {
-        Date date = new Date();
-        try {
-            String dateText = field.getText();
-            SimpleDateFormat fmt = new SimpleDateFormat(format);
-            date = fmt.parse(dateText);
-        } catch (Exception e) {
-        }
-        return date;
+   
+
+
+    public DateFilter getDateFilter() {
+        return new BasicDateFilter();
     }
 
-
-    public ClickableDateFilter getDateFilter() {
-        return new BasicClickableDateFilter();
-    }
-
+    
     public void set(Date date) {
-        SimpleDateFormat fmt = new SimpleDateFormat(format);
-        String result = fmt.format(date);
-        field.setText(result);
-    }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(getDate());
 
-    public void close() {
-        if (getPopup() != null) {
-            getPopup().hide();
-            setPopup(null);
-            return;
-        }
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date);
+
+        cal.set(Calendar.HOUR_OF_DAY, cal2.get(Calendar.HOUR_OF_DAY));
+        cal.set(Calendar.MINUTE, cal2.get(Calendar.MINUTE));
+        cal.set(Calendar.SECOND, cal2.get(Calendar.SECOND));
+
+        SimpleDateFormat fmt = new SimpleDateFormat(format);
+        String result = fmt.format(cal.getTime());
+        getField().setText(result);
     }
+ 
 
 }

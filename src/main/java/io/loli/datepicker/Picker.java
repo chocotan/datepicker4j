@@ -15,12 +15,11 @@ public interface Picker {
 
     void setPopup(Popup popup);
 
-    ClickableDateFilter getDateFilter();
+    DateFilter getDateFilter();
 
     void set(Date date);
     
     void close();
     
     String getFormat();
-
 }

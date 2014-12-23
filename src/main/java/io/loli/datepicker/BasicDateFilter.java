@@ -2,7 +2,7 @@ package io.loli.datepicker;
 
 import java.util.Date;
 
-public class BasicClickableDateFilter implements ClickableDateFilter {
+public class BasicDateFilter implements DateFilter {
 
     /*
      * (non-Javadoc)

@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -44,22 +46,19 @@ public class DatePanel extends JPanel {
 
     private Picker picker = null;
 
-    DatePanel(final Picker picker) {
+    public DatePanel(final Picker picker) {
         this.setLayout(new BorderLayout());
         this.picker = picker;
         add(topPanel, BorderLayout.NORTH);
         yearTextField.setEditable(false);
         monthTextField.setEditable(false);
-        
-        
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(picker.getDate());
-        
-        
+
         yearTextField.setText(String.valueOf(cal.get(Calendar.YEAR)));
         monthTextField.setText(String.valueOf(cal.get(Calendar.MONDAY) + 1));
-        
-        
+
         topPanel.add(lastYearBtn);
         topPanel.add(yearTextField);
         topPanel.add(nextYearBtn);
@@ -319,6 +318,8 @@ public class DatePanel extends JPanel {
                 new JLabel("FRI"), new JLabel("SAT") };
     }
 
+    private List<DayBtn> dayBtns = new ArrayList<DayBtn>();
+
     /**
      * Refresh day btn tables
      */
@@ -338,6 +339,14 @@ public class DatePanel extends JPanel {
 
         addDayHeadLabels();
 
+        Date d = picker.getDate();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        int currentYear = cal.get(Calendar.YEAR);
+
+        int currentMonth = cal.get(Calendar.MONTH);
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
         /*
          * Add days label before 1st
          */
@@ -350,7 +359,14 @@ public class DatePanel extends JPanel {
         }
 
         for (String it : days) {
-            daysPanel.add(new DayBtn(it));
+            DayBtn btn = new DayBtn(it);
+            if (displayYear == currentYear && displayMonth == currentMonth + 1
+                    && currentDay == Integer.parseInt(it)) {
+                btn.setBackground(Color.GRAY);
+            }
+
+            dayBtns.add(btn);
+            daysPanel.add(btn);
         }
 
         /*
@@ -388,6 +404,8 @@ public class DatePanel extends JPanel {
 
         private Color originColor;
 
+        boolean clicked = false;
+
         DayBtn(String str) {
             super(str);
             this.day = str;
@@ -408,12 +426,21 @@ public class DatePanel extends JPanel {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
-                        
+
                         Calendar cal = Calendar.getInstance();
-                        cal.set(getDisplayYear(), getDisplayMonth()-1, Integer.parseInt(day));
+                        cal.setTime(picker.getDate());
+                        cal.set(getDisplayYear(), getDisplayMonth() - 1,
+                                Integer.parseInt(day));
                         Date calDate = cal.getTime();
                         picker.set(calDate);
 
+                        for (DayBtn btn : dayBtns) {
+                            btn.setBackground(originColor);
+                            btn.clicked = false;
+                        }
+                        setBackground(Color.GRAY);
+                        clicked = true;
+                        DatePanel.this.repaint();
                     }
 
                     @Override
@@ -425,8 +452,10 @@ public class DatePanel extends JPanel {
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        super.mouseEntered(e);
-                        setBackground(originColor);
+                        super.mouseExited(e);
+                        if (!clicked) {
+                            setBackground(originColor);
+                        }
                         DatePanel.this.repaint();
                     }
                 });
@@ -434,7 +463,8 @@ public class DatePanel extends JPanel {
 
         public void actionPerformed(ActionEvent e) {
             Calendar cal = Calendar.getInstance();
-            cal.set(getDisplayYear(), getDisplayMonth()-1, Integer.parseInt(day));
+            cal.set(getDisplayYear(), getDisplayMonth() - 1,
+                    Integer.parseInt(day));
             Date calDate = cal.getTime();
             picker.set(calDate);
         }

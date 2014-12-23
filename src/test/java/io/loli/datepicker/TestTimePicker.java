@@ -9,7 +9,7 @@ public class TestTimePicker {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTextField field = new JTextField(10);
-        new TimePicker(field, "HH:mm");
+        DatePicker.timePicker(field, "HH:mm");
         frame.add(field);
         frame.pack();
     }

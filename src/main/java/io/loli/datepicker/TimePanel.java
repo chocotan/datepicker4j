@@ -26,18 +26,26 @@ public class TimePanel extends JPanel {
 
     private JPanel controlPanel = new JPanel();
 
+    private Picker picker;
+
     public TimePanel(final Picker picker) {
         this.setLayout(new GridLayout(1, 0));
         this.setVisible(true);
         this.setSize(100, 200);
+        this.picker = picker;
         add(hourPanel);
-        add(minPanel);
+        int width = 60;
+
+        if (picker.getFormat().contains("m")) {
+            add(minPanel);
+            width += 60;
+        }
         if (picker.getFormat().contains("s")) {
             add(secondPanel);
-            this.setPreferredSize(new Dimension(170, 80));
-        } else
-            this.setPreferredSize(new Dimension(120, 80));
-
+            width += 60;
+            this.setPreferredSize(new Dimension(width, 80));
+        }
+        this.setPreferredSize(new Dimension(width, 80));
         JButton nowBtn = new JButton("Now");
         JButton okBtn = new JButton("Ok");
         controlPanel.setLayout(new GridLayout(2, 1));
@@ -54,15 +62,7 @@ public class TimePanel extends JPanel {
 
         okBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int hour = hourPanel.get();
-                int min = minPanel.get();
-                int second = secondPanel.get();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(new Date());
-                cal.set(Calendar.HOUR_OF_DAY, hour);
-                cal.set(Calendar.MINUTE, min);
-                cal.set(Calendar.SECOND, second);
-                picker.set(cal.getTime());
+                picker.set(getDate());
                 picker.close();
             }
         });
@@ -188,6 +188,7 @@ public class TimePanel extends JPanel {
 
         public void set(int i) {
             numField.setText(String.valueOf(i));
+            picker.set(getDate());
         }
 
         public int get() {
@@ -198,6 +199,18 @@ public class TimePanel extends JPanel {
             }
             return nowNum;
         }
+    }
+
+    public Date getDate() {
+        int hour = hourPanel.get();
+        int min = minPanel.get();
+        int second = secondPanel.get();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(picker.getDate());
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, min);
+        cal.set(Calendar.SECOND, second);
+        return cal.getTime();
     }
 
 }

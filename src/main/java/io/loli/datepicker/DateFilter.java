@@ -2,7 +2,7 @@ package io.loli.datepicker;
 
 import java.util.Date;
 
-interface ClickableDateFilter {
+interface DateFilter {
 
     /**
      * Make date btn unclickable if returns true

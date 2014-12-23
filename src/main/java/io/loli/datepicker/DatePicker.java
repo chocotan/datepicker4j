@@ -19,17 +19,8 @@ public class DatePicker extends AbstractPicker {
     }
 
     private SimpleDateFormat simpleDateFormat;
-    ClickableDateFilter filter;
 
     private boolean setTimeAtSetup = false;
-
-    public Date getDate() {
-        try {
-            return simpleDateFormat.parse(this.field.getText());
-        } catch (Exception e) {
-            return new Date();
-        }
-    }
 
     /**
      * Get text of text field
@@ -40,15 +31,13 @@ public class DatePicker extends AbstractPicker {
         return this.field.getText();
     }
 
-
     /**
      * @param field
      *            to add to
      * @param format
      *            date format
      */
-    public DatePicker(final JTextField field, String format,
-            ClickableDateFilter filter) {
+    public DatePicker(final JTextField field, String format, DateFilter filter) {
         this.field = field;
         if (format != null) {
             this.format = format;
@@ -78,7 +67,7 @@ public class DatePicker extends AbstractPicker {
     }
 
     public DatePicker(JTextField field) {
-        this(field, null, new BasicClickableDateFilter());
+        this(field, null, new BasicDateFilter());
     }
 
     public static SimpleDateFormat getDateFormat(String format) {
@@ -147,7 +136,7 @@ public class DatePicker extends AbstractPicker {
      *            date format string
      */
     public static void datePicker(JTextField field, String format) {
-        new DatePicker(field, format, new BasicClickableDateFilter());
+        new DatePicker(field, format, new BasicDateFilter());
     }
 
     /**
@@ -161,55 +150,86 @@ public class DatePicker extends AbstractPicker {
      *            filter
      */
     public static void datePicker(JTextField field, String format,
-            ClickableDateFilter filter) {
+            DateFilter filter) {
         new DatePicker(field, format, filter);
     }
 
     /**
-     * Get date field with format 'yyyy-MM-dd'
+     * Add a time picker to a text field
      * 
-     * @return text field with format 'yyyy-MM-dd'
+     * @param field
+     *            the text field you want to add to
      */
-    public static JTextField getDateField() {
-        JTextField field = new JTextField();
-        field.setEditable(false);
-        datePicker(field);
-        return field;
+    public static void timePicker(JTextField field) {
+        timePicker(field, null);
     }
 
     /**
-     * Get date field with format
+     * Add a time picker to a text field with time format
      * 
+     * @param field
+     *            the text field you want to add to
      * @param format
-     *            date format
-     * @return text field with format
+     *            time format string
      */
-    public static JTextField getDateField(String format) {
-        JTextField field = new JTextField();
-        field.setEditable(false);
-        datePicker(field);
-        return field;
+    public static void timePicker(JTextField field, String format) {
+        new TimePicker(field, format);
     }
 
-    public ClickableDateFilter getDateFilter() {
+    /**
+     * Add a date time picker to a text field
+     * 
+     * @param field
+     *            the text field you want to add to
+     */
+    public static void dateTimePicker(JTextField field) {
+        dateTimePicker(field, null);
+    }
+
+    /**
+     * Add a date time picker to a text field with time format
+     * 
+     * @param field
+     *            the text field you want to add to
+     * @param format
+     *            date time format string
+     */
+    public static void dateTimePicker(JTextField field, String format) {
+        dateTimePicker(field, format, new BasicDateFilter());
+    }
+
+    /**
+     * Add a time picker to a text field with time format
+     * 
+     * @param field
+     *            the text field you want to add to
+     * @param format
+     *            time format string
+     * @param filter
+     *            to make some days unclickable
+     */
+    public static void dateTimePicker(JTextField field, String format,
+            DateFilter filter) {
+        new DateTimePicker(field, format, filter);
+    }
+
+    public DateFilter getDateFilter() {
         return filter;
     }
 
     public void set(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.getDate());
 
-        this.field.setText(simpleDateFormat.format(date));
-        if (popup != null) {
-            popup.hide();
-            popup = null;
-        }
-    }
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date);
 
-    public void close() {
-        if (getPopup() != null) {
-            getPopup().hide();
-            setPopup(null);
-            return;
-        }
+        cal.set(Calendar.YEAR, cal2.get(Calendar.YEAR));
+        cal.set(Calendar.MONTH, cal2.get(Calendar.MONTH));
+        cal.set(Calendar.DAY_OF_MONTH, cal2.get(Calendar.DAY_OF_MONTH));
+
+        this.field.setText(simpleDateFormat.format(cal.getTime()));
+        close();
     }
 
 }

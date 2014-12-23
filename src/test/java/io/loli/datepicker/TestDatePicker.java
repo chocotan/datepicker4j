@@ -12,7 +12,7 @@ public class TestDatePicker {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JTextField field = new JTextField();
-        DatePicker.datePicker(field, "yyyy-MM-dd", new ClickableDateFilter() {
+        DatePicker.datePicker(field, "yyyy-MM-dd", new DateFilter() {
             public boolean filter(Date date) {
                 return date.getDay() == 0 || date.getDay() == 6;
             }
