@@ -22,7 +22,8 @@ DatePicker.datePicker(field);
 
 ###Example
 
-####Basic Example
+####Date Picker
+
 ```java
 JFrame frame = new JFrame();
 frame.setVisible(true);
@@ -34,6 +35,7 @@ frame.pack();
 ```
 
 ####Make SUN&SAT unclickable
+
 ```
 DatePicker.datePicker(field, "yyyy-MM-dd", new ClickableDateFilter() {
     public boolean filter(Date date) {
@@ -42,6 +44,23 @@ DatePicker.datePicker(field, "yyyy-MM-dd", new ClickableDateFilter() {
 });
 ```
 
+###Time Picker
+
+```
+JTextField field = new JTextField();
+DatePicker.timePicker(field);
+// DatePicker.timePicker(field, "HH:mm");
+```
+
+###Datetime Picker
+
+```
+JTextField field = new JTextField();
+DatePicker.dateTimePicker(field);
+// DatePicker.timePicker(field, "yyyy-MM-dd HH:mm");
+```
 
 ###Screenshot
-![DEMO](http://r.loli.io/ZfiARn.png)
+![DEMO1](http://r.loli.io/ZfiARn.png)
+![DEMO2](http://r.loli.io/aq2qeu.png)
+![DEMO3](http://r.loli.io/3aqEVf.png)

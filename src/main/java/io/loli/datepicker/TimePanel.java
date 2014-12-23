@@ -1,6 +1,5 @@
 package io.loli.datepicker;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +10,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -20,32 +20,26 @@ public class TimePanel extends JPanel {
 
     private NumPanel hourPanel = new NumPanel(24, null);
 
-    private NumPanel minPanel = new NumPanel(60, hourPanel);
+    private NumPanel minPanel = new NumPanel(70, hourPanel);
 
-    private NumPanel secondPanel = new NumPanel(60, minPanel);
+    private NumPanel secondPanel = new NumPanel(70, minPanel);
 
     private JPanel controlPanel = new JPanel();
 
     private Picker picker;
 
     public TimePanel(final Picker picker) {
-        this.setLayout(new GridLayout(1, 0));
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setVisible(true);
-        this.setSize(100, 200);
         this.picker = picker;
         add(hourPanel);
-        int width = 60;
 
         if (picker.getFormat().contains("m")) {
             add(minPanel);
-            width += 60;
         }
         if (picker.getFormat().contains("s")) {
             add(secondPanel);
-            width += 60;
-            this.setPreferredSize(new Dimension(width, 80));
         }
-        this.setPreferredSize(new Dimension(width, 80));
         JButton nowBtn = new JButton("Now");
         JButton okBtn = new JButton("Ok");
         controlPanel.setLayout(new GridLayout(2, 1));
