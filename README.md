@@ -8,7 +8,7 @@ Date picker for java swing
 <dependency>
   <groupId>io.loli</groupId>
   <artifactId>datepicker4j</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
 </dependency>
 ```
 
@@ -62,5 +62,9 @@ DatePicker.dateTimePicker(field);
 
 ###Screenshot
 ![DEMO1](http://r.loli.io/ZfiARn.png)
+
+
 ![DEMO2](http://r.loli.io/aq2qeu.png)
+
+
 ![DEMO3](http://r.loli.io/3aqEVf.png)
