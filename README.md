@@ -36,8 +36,8 @@ frame.pack();
 
 ####Make SUN&SAT unclickable
 
-```
-DatePicker.datePicker(field, "yyyy-MM-dd", new ClickableDateFilter() {
+```java
+DatePicker.datePicker(field, "yyyy-MM-dd", new BasicDateFilter() {
     public boolean filter(Date date) {
         return date.getDay() == 0 || date.getDay() == 6;
     }
@@ -46,7 +46,7 @@ DatePicker.datePicker(field, "yyyy-MM-dd", new ClickableDateFilter() {
 
 ###Time Picker
 
-```
+```java
 JTextField field = new JTextField();
 DatePicker.timePicker(field);
 // DatePicker.timePicker(field, "HH:mm");
@@ -54,7 +54,7 @@ DatePicker.timePicker(field);
 
 ###Datetime Picker
 
-```
+```java
 JTextField field = new JTextField();
 DatePicker.dateTimePicker(field);
 // DatePicker.timePicker(field, "yyyy-MM-dd HH:mm");
