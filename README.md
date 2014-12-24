@@ -37,7 +37,7 @@ frame.pack();
 ####Make SUN&SAT unclickable
 
 ```
-DatePicker.datePicker(field, "yyyy-MM-dd", new ClickableDateFilter() {
+DatePicker.datePicker(field, "yyyy-MM-dd", new BasicDateFilter() {
     public boolean filter(Date date) {
         return date.getDay() == 0 || date.getDay() == 6;
     }
