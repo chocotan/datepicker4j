@@ -15,7 +15,7 @@ public class TimePicker extends AbstractPicker {
     }
 
     private boolean setTimeAtSetup = false;
-
+    
     public TimePicker(final JTextField field, String format) {
         if (format != null){
             this.format = format;

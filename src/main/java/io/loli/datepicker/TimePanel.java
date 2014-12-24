@@ -5,13 +5,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -26,19 +30,32 @@ public class TimePanel extends JPanel {
 
     private JPanel controlPanel = new JPanel();
 
+    private JPanel mainPanel = new JPanel();
+
+    private JLabel nowLabel = new JLabel();
+
     private Picker picker;
 
+    private JPanel nowPanel = new JPanel();
+
     public TimePanel(final Picker picker) {
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setVisible(true);
         this.picker = picker;
-        add(hourPanel);
 
+        nowPanel.add(nowLabel);
+        startToRefreshNowLabel();
+
+        add(nowPanel);
+        add(mainPanel);
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.X_AXIS));
+
+        mainPanel.add(hourPanel);
         if (picker.getFormat().contains("m")) {
-            add(minPanel);
+            mainPanel.add(minPanel);
         }
         if (picker.getFormat().contains("s")) {
-            add(secondPanel);
+            mainPanel.add(secondPanel);
         }
         JButton nowBtn = new JButton("Now");
         JButton okBtn = new JButton("Ok");
@@ -61,7 +78,20 @@ public class TimePanel extends JPanel {
             }
         });
 
-        add(controlPanel);
+        mainPanel.add(controlPanel);
+
+    }
+
+    private void startToRefreshNowLabel() {
+        final SimpleDateFormat format = new SimpleDateFormat(getTopLabelFormat());
+        nowLabel.setText("Now: " + format.format(new Date()));
+        Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(new Runnable() {
+
+            public void run() {
+                nowLabel.setText("Now: " + format.format(new Date()));
+            }
+
+        }, 1, 1, TimeUnit.SECONDS);
 
     }
 
@@ -205,6 +235,10 @@ public class TimePanel extends JPanel {
         cal.set(Calendar.MINUTE, min);
         cal.set(Calendar.SECOND, second);
         return cal.getTime();
+    }
+
+    public String getTopLabelFormat() {
+        return "HH:mm:ss";
     }
 
 }
