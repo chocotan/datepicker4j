@@ -1,3 +1,5 @@
 language: java
 before_script: mvn package
 script: mvn test
+before_install:
+install:
