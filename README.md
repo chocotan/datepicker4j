@@ -2,6 +2,7 @@ datepicker4j
 ============
 Date picker for java swing
 
+![Maven Central](https://img.shields.io/badge/license-MIT-blue.svg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.loli/datepicker4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.loli/datepicker4j)
 
 
