@@ -2,7 +2,6 @@ datepicker4j
 ============
 Date picker for java swing
 
-[![Coverage Status](https://coveralls.io/repos/chocotan/datepicker4j/badge.png)](https://coveralls.io/r/chocotan/datepicker4j)
 ![Maven Central](https://img.shields.io/badge/license-MIT-blue.svg)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.loli/datepicker4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.loli/datepicker4j)
 
