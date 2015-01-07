@@ -1,5 +1,4 @@
 language: java
 before_script: mvn package
 script: mvn test
-before_install:
-install:
+install: mvn install -DskipTests=true -Dgpg.skip=true
